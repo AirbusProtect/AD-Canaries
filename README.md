@@ -11,7 +11,7 @@
 
 ## Description
 
-Active Directory Canaries is a detection primitive for Active Directory enumeration (or recon) techniques. It abuses the concept of DACL Backdoors, introduced by Specter Ops researchers Andy Robins (@_wald0) and Will Schroeder (*@harmj0y*) back in 2017 in their white paper ["An ACE Up the Sleeve"](https://www.blackhat.com/docs/us-17/wednesday/us-17-Robbins-An-ACE-Up-The-Sleeve-Designing-Active-Directory-DACL-Backdoors.pdf).
+Active Directory Canaries is a detection primitive for Active Directory enumeration (or recon) techniques. It abuses the concept of DACL Backdoors, introduced by Specter Ops researchers Andy Robins (@_wald0) and Will Schroeder (@harmj0y) back in 2017 in their white paper ["An ACE Up the Sleeve"](https://www.blackhat.com/docs/us-17/wednesday/us-17-Robbins-An-ACE-Up-The-Sleeve-Designing-Active-Directory-DACL-Backdoors.pdf).
 
 The purpose of this project is to publish and maintain the deployment PowerShell script that automates required AD object deployments.
 
@@ -49,11 +49,11 @@ AD Canaries detection is based on `Directory Service Object Access : Failure` au
 ``` powershell
 Usage : ./ADCanaries.ps1  -Populate -Config <Path> -ParentOU <OU> \
                                                    -Owner <Principal|Group Name> \
-                                                   -CanaryOUName <Name>             : Automatically enumarate AD groups to deploy per-group ADCanary and default ADCanaries; overwrites json config file provided
-                          -Deploy -Config <Path> -Output <Path>                     : Deploy ADCanaries using json configuration file and outputs lookup CSV with CanaryName,CanaryGUID
-                          -Revert -Config <Path>                                    : Destroy ADCanaries using json configuration file
-                          -AuditSACLs                                               : Display the list of existing AD objects with (ReadProperty|GenericAll) audit enabled to help measure DS Access audit failure activation impact
-                          -GetObjectPropertiesGuids -Output <Path>                  : Retreives the schemaIDGuid for attributes of Canaries objectClass and outputs as csv
+                                                   -CanaryOUName <Name>             : 'Automatically enumarate AD groups to deploy per-group ADCanary and default ADCanaries; overwrites json config file provided'
+                          -Deploy -Config <Path> -Output <Path>                     : 'Deploy ADCanaries using json configuration file and outputs lookup CSV with CanaryName,CanaryGUID'
+                          -Revert -Config <Path>                                    : 'Destroy ADCanaries using json configuration file'
+                          -AuditSACLs                                               : 'Display the list of existing AD objects with (ReadProperty|GenericAll) audit enabled to help measure DS Access audit failure activation impact'
+                          -GetObjectPropertiesGuids -Output <Path>                  : 'Retreives the schemaIDGuid for attributes of Canaries objectClass and outputs as csv'
 ```
 
 Deployment demonstration video example presented at CORIIN 2023 :
@@ -77,7 +77,7 @@ Specify the pre-existing ParentOU in which you want to deploy the canaries, and 
 Populate will generate a JSON config file that you can customize to your liking ahead of deployment: 
 ``` json
 {
-    “Configuration”: {
+    'Configuration': {
         “CanaryOwner”:  “Domain Admins”,
         “CanaryGroup”: {
             “OtherAttributes”: {},
