@@ -75,9 +75,9 @@ Specify the pre-existing ParentOU in which you want to deploy the canaries, and 
 **Try to make these blend as much as possible in your environment as those are the only objects that will be visible after full deployment.**
 
 Populate will generate a JSON config file that you can customize to your liking ahead of deployment: 
-``` json
+``` bash
 {
-    'Configuration': {
+    “Configuration”: {
         “CanaryOwner”:  “Domain Admins”,
         “CanaryGroup”: {
             “OtherAttributes”: {},
@@ -93,7 +93,7 @@ Populate will generate a JSON config file that you can customize to your liking 
             “Description”:  “[ADCanaries] Default OU”,
                         “Type”:  “OU”,
                         “ProtectedFromAccidentalDeletion”:  1,
-                        “Name”:  “TEST -- [VISIBLE] change it ”,
+                        “Name”:  “TEST -- [VISIBLE] change it”,
                         “Path”:  “OU=TEST,DC=CYBERLAB,DC=NET”
 
         }
@@ -135,7 +135,7 @@ Will deploy all AD objects, disable inheritance, change owner and default primar
 Now if you have properly configured auditing, you should be able to test 4662 (DS Access failure)event generation upon AD enumeration.
 Example of detection query in KQL (with pivot on 4624 logon event to enrich) :
 
-``` kusto
+``` sql
 SecurityEvent
 | where EventID == 4662 and ObjectServer == “DS”
 | extend Object = tostring(split(split(ObjectName, “{“)[1], “}”)[0]),
