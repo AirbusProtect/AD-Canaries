@@ -49,7 +49,7 @@ AD Canaries detection is based on `Directory Service Object Access : Failure` au
 ``` powershell
 Usage : ./ADCanaries.ps1  -Populate -Config <Path> -ParentOU <OU> \
                                                    -Owner <Principal|Group Name> \
-                                                   -CanaryOUName <Name>             : 'Automatically enumarate AD groups to deploy per-group ADCanary and default ADCanaries; overwrites json config file provided'
+                                                   -CanaryContainer <Name>          : 'Populate default ADCanaries deployment; overwrites json config file provided.'
                           -Deploy -Config <Path> -Output <Path>                     : 'Deploy ADCanaries using json configuration file and outputs lookup CSV with CanaryName,CanaryGUID'
                           -Revert -Config <Path>                                    : 'Destroy ADCanaries using json configuration file'
                           -AuditSACLs                                               : 'Display the list of existing AD objects with (ReadProperty|GenericAll) audit enabled to help measure DS Access audit failure activation impact'
@@ -77,7 +77,7 @@ Deployment demonstration video example presented at CORIIN 2023 :
 In the following example, we chose to deploy inside the OU 'OU=CORIIN-DEMO,DC=SYLVESTER,DC=LABS' and configure 'Domain Admins' as owner :
 
 ``` powershell
-./ADCanaries.ps1 -Populate -Config ADCanaries.json -ParentOU 'OU=CORIIN-DEMO,DC=SYLVESTER,DC=LABS' -Owner 'Domain Admins' -CanaryOUName 'GrosMinet'
+./ADCanaries.ps1 -Populate -Config ADCanaries.json -ParentOU 'OU=CORIIN-DEMO,DC=SYLVESTER,DC=LABS' -Owner 'Domain Admins' -CanaryContainer 'GrosMinet'
 ```
 
 Specify the pre-existing ParentOU in which you want to deploy the canaries, and the deployed OU name.
@@ -90,19 +90,19 @@ Populate will generate a JSON config file that you can customize to your liking 
         “CanaryOwner”:  “Domain Admins”,
         “CanaryGroup”: {
             “OtherAttributes”: {},
-            “Description”:  “Canaries primary group”,
+            “Description”:  “[ADCanaries] Canaries primary group -- [VISIBLE TO ATTACKERS] change it”,
             “Type”:  “group”,
                         “ProtectedFromAccidentalDeletion”:  1,
-                        “Name”:  “TEST -- [VISIBLE] change it”,
-                        “Path”:  “OU=TEST,OU=TEST,DC=CYBERLAB,DC=NET”
+                        “Name”:  “TEST”,
+                        “Path”:  “CN=TEST,OU=TEST,DC=CYBERLAB,DC=NET”
 
         },
-        “CanaryOU”: {
+        “CanaryContainer”: {
             “OtherAttributes”: {},
-            “Description”:  “[ADCanaries] Default OU”,
-                        “Type”:  “OU”,
+            “Description”:  “[ADCanaries] Default container -- [VISIBLE TO ATTACKERS] change it”,
+                        “Type”:  “container”,
                         “ProtectedFromAccidentalDeletion”:  1,
-                        “Name”:  “TEST -- [VISIBLE] change it”,
+                        “Name”:  “TEST”,
                         “Path”:  “OU=TEST,DC=CYBERLAB,DC=NET”
 
         }
@@ -113,21 +113,29 @@ Populate will generate a JSON config file that you can customize to your liking 
         “Type”:  “user”,
         “ProtectedFromAccidentalDeletion”:  1,
         “Name”:  “CanaryUser”,
-        “Path”:  “OU=TEST,OU=TEST,DC=CYBERLAB,DC=NET”
+        “Path”:  “CN=TEST,OU=TEST,DC=CYBERLAB,DC=NET”
 
     },{ “OtherAttributes”: {},
         “Description”:  “[ADCanaries] Default Computer Canary -- change it”,
         “Type”:  “computer”,
         “ProtectedFromAccidentalDeletion”:  1,
         “Name”:  “CanaryComputer”,
-        “Path”:  “OU=TEST,OU=TEST,DC=CYBERLAB,DC=NET”
+        “Path”:  “CN=TEST,OU=TEST,DC=CYBERLAB,DC=NET”
     },{ “OtherAttributes”: {},
         “Description”:  “[ADCanaries] Default Group Canary -- change it”,
         “Type”:  “group”,
         “ProtectedFromAccidentalDeletion”:  1,
         “Name”:  “CanaryGroup”,
-        “Path”:  “OU=TEST,OU=TEST,DC=CYBERLAB,DC=NET”
-    }]
+        “Path”:  “CN=TEST,OU=TEST,DC=CYBERLAB,DC=NET”
+    },{ “OtherAttributes”: {},
+        “Description”:  “[ADCanaries] Default CertificateTemplate Canary -- change it”,
+        “Type”:  pKICertificateTemplate,
+        “ProtectedFromAccidentalDeletion”:  1,
+        “Name”:  “CanaryCertTemplate”,
+        “Path”:  “CN=TEST,OU=TEST,DC=CYBERLAB,DC=NET”
+    },
+    ...
+    ]
 }
 ```
 
