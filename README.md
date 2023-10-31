@@ -67,6 +67,15 @@ Deployment demonstration video example presented at CORIIN 2023 :
 
 ### Populating the JSON file
 
+#### Requirements
+
+- Choosing or creating an OU to deploy ADCanaries within:
+    - AD canaries will create all objects required to have a hardened isolated bundle of objects, but you need to choose where (i.e. **which OU**) to deploy inside the AD tree.
+- Choosing a group of users that will own canary objects. 
+    - This group of users will be the only (along with AD Admins) to be able to alter the deployed canaries. We recommend to setup **DOMAIN\Administrators as Owner**.
+
+In the following example, we chose to deploy inside the OU 'OU=CORIIN-DEMO,DC=SYLVESTER,DC=LABS' and configure 'Domain Admins' as owner :
+
 ``` powershell
 ./ADCanaries.ps1 -Populate -Config ADCanaries.json -ParentOU 'OU=CORIIN-DEMO,DC=SYLVESTER,DC=LABS' -Owner 'Domain Admins' -CanaryOUName 'GrosMinet'
 ```
@@ -121,6 +130,16 @@ Populate will generate a JSON config file that you can customize to your liking 
     }]
 }
 ```
+
+**NB:** AD canaries are deployed as AD objects, you can configure other type of canaries by specifying existing AD Objects type such as :
+- domainPolicy
+- pKICertificateTemplate
+- organizationalUnit
+- ...
+
+To uncover enumeration of this types of objects within your domains.
+
+**/!\\** you might need some troubleshouting when implementing non standard canary objects **/!\\**
 
 ### Deploying based on the JSON file
 
