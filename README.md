@@ -29,9 +29,6 @@ The purpose of this project is to publish and maintain the deployment PowerShell
 
 AD Canaries deployment requires AD admin permission, and involves deploying several new AD objects to production. Although these objects are isolated and hardened, we strongly invite you to review the code before and test it **before** any in-production deployment.
 
-## Licenses
-TODO
-
 ## Detection mechanism
 
 AD Canaries detection is based on `Directory Service Object Access : Failure` audit which generates a 4662 event in the Security eventlog on your domain controller upon AD enumeration behaviours (i.e access attempt on any canary object).
